@@ -1,0 +1,1178 @@
+﻿--------------------------------------------------------------------------------------
+IL disassembler ist noch am laufen, geladene compilierte Assembly, und nicht beendet,
+und man versucht neu zu complieren, sperrt der IL Assembler die Assembly .dll,
+Der Linker die neue anzulegen.
+--------------------------------------------------------------------------------------
+Microsoft selbst in Assembly Microsoft.AE.dll
+class NativeMethods:
+enumerators, structs, methods, constants,
+
+class SafeNativeMethods:
+Windows Functions,
+
+class UnsafeNativeMethods:
+SendMessage with override
+here about Window Functions
+GetWindowDC, ReleaseDC, BeginPaint, EndPaint
+GetActiveWindow
+--------------------------------------------------------------------------------------
+WebClient is deprecated
+API is deprecated by Windows Operation System, newer one or removed.
+API is not supported on all Platforms.
+--------------------------------------------------------------------------------------
+Visual Studio 2017 - Integrated NuGet-Manager
+======================================================================================
+auf Verweise mouse move dann rechts klicken--> NuGet-Pakete verwalten-->
+Open the NuGet-Paket-Manager--> jede Menge Pakete zum installieren.
+bestimmtes suchen oben links eingeben.
+Paketquelle:
+Alle
+nuget.org
+CliFallbackFolder
+Microsoft Visual Studio Offline Packages
+--------------------------------------------------------------------------------------
+System.Windows
+Stellt einen Startbildschirm für eine Windows Presentation Foundation (WPF)-Anwendung.
+SplashScreen
+
+--------------------------------------------------------------------------------------
+[__DynamicallyInvokable]
+System.Runtime.InteropServices
+--------------------------------------------------------------------------------------
+! Achtung ! ab neuem Visual Studio 2017/2018/2019 - 
+!
+! Microsoft Richtlinien automatisch aktiviert, 
+! Globalization
+! Portability
+! Design 
+!
+! Vorsicht ! bei unmanaged Functions aus nativen dll's:
+
+beispiel deklaration:
+namespace NativeMethods{} 
+klasse:
+
+
+// for enums
+internal static class CUnsafeNativeEnums
+
+// for structures
+internal static class CUnsafeNativeStructs
+
+// class
+internal static class CUnsafeNativeMethods
+
+// DllImportAttribute the best declaration
+// CallingConvention.StdCall - for all dynamic link libraries with declaration extern 'C'
+// CallingConvention.Cdecl - for all dynamic link libraries without declaration extern 'C' written in C++ only.
+// SimpleSample all C++ Runtime Libraries for use.
+[DllImport("kernel32.dll", EntryPoint = "GetSystemTimeAsFileTime", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+internal static extern void GetSystemTimeAsFileTime(ref CUnsafeNativeStructs.FILE_TIME lpSystemTimeAsFileTime);
+-----------------------------------------------------------------------------------------------------
+System.Media
+Class Soundplayer - only .wav files, internal written with API function PlaySound
+-----------------------------------------------------------------------------------------------------
+
+
+
+
+-----------------------------------------------------------------------------------------------------
+// So we free the Resources and all Components for the Splash Form
+// that's NEW ! so GC frees all.
+frm1.Dispose();
+            
+// Close Splash Form
+frm1.Close();
+
+-----------------------------------------------------------------------------------------------------
+Helps for RegistrySecurity
+
+System.Security.AccessControl Namespace 
+https://docs.microsoft.com/de-de/dotnet/api/system.security.accesscontrol?view=netframework-4.7.1
+
+RegistrySecurity Class 
+https://docs.microsoft.com/de-de/dotnet/api/system.security.accesscontrol.registrysecurity?f1url=https%3A%2F%2Fmsdn.microsoft.com%2Fquery%2Fdev15.query%3FappId%3DDev15IDEF1%26l%3DDE-DE%26k%3Dk(System.Security.AccessControl.RegistrySecurity);k(TargetFrameworkMoniker-.NETFramework,Version%3Dv4.7.1);k(DevLang-csharp)%26rd%3Dtrue&view=netframework-4.7.1
+
+
+
+
+-----------------------------------------------------------------------------------------------------
+
+Classname variable = namespace.namespace.class.field.method();
+RegistryKey RegKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Software Creative Production\System\VFL\LICENSE");
+
+set in try - RegKey.Close();
+and in Finally - RegKey.Close();
+double set is not allowed, System.ObjectDisposedException
+
+Das Objekt "'RegKey'" kann mehrere Male in der 'CWindowsRegistry.VRLCreateRegistryKeyPasswordLevel(int)'-Methode verworfen werden. 
+Um zu verhindern, dass eine System.ObjectDisposedException generiert wird, 
+sollten Sie die Dispose-Methode nur einmal für ein Objekt aufrufen.
+
+
+
+
+
+
+ /*
+  * Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "LogonType", string.Empty).ToString();
+    !!! Achtung !!! Zugriff verweigert durch Windows 10 Security - Schlüssel Policies\System
+    RegistryKey RegKey = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System");
+    RegKey.SetValue("DisableTaskMgr", !Enabled, RegistryValueKind.DWord); RegKey.Close();
+
+    RegKey = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Group Policy Objects\LocalUser\Software\Microsoft\Windows\CurrentVersion\Policies\System"); 
+    RegKey.SetValue("DisableTaskMgr", !Enabled, RegistryValueKind.DWord); RegKey.Close();
+             * 
+            Microsoft.Win32.Registry.LocalMachine.SetValue("", "");
+            Microsoft.Win32.Registry.LocalMachine.OpenSubKey("");
+            Microsoft.Win32.Registry.LocalMachine.SetAccessControl()
+
+
+            using System;
+using System.Security.Permissions;
+using Microsoft.Win32;
+
+class RegKey
+{
+    static void Main()
+    {
+        // Create a subkey named Test9999 under HKEY_CURRENT_USER.
+        RegistryKey test9999 = 
+            Registry.CurrentUser.CreateSubKey("Test9999");
+        // Create two subkeys under HKEY_CURRENT_USER\Test9999. The
+        // keys are disposed when execution exits the using statement.
+        using(RegistryKey 
+            testName = test9999.CreateSubKey("TestName"),
+            testSettings = test9999.CreateSubKey("TestSettings"))
+        {
+            // Create data for the TestSettings subkey.
+            testSettings.SetValue("Language", "French");
+            testSettings.SetValue("Level", "Intermediate");
+            testSettings.SetValue("ID", 123);
+        }
+
+        // Print the information from the Test9999 subkey.
+        Console.WriteLine("There are {0} subkeys under {1}.", 
+            test9999.SubKeyCount.ToString(), test9999.Name);
+        foreach(string subKeyName in test9999.GetSubKeyNames())
+        {
+            using(RegistryKey 
+                tempKey = test9999.OpenSubKey(subKeyName))
+            {
+                Console.WriteLine("\nThere are {0} values for {1}.", 
+                    tempKey.ValueCount.ToString(), tempKey.Name);
+                foreach(string valueName in tempKey.GetValueNames())
+                {
+                    Console.WriteLine("{0,-8}: {1}", valueName, 
+                        tempKey.GetValue(valueName).ToString());
+                }
+            }
+        }
+
+        using(RegistryKey 
+            testSettings = test9999.OpenSubKey("TestSettings", true))
+        {
+            // Delete the ID value.
+            testSettings.DeleteValue("id");
+
+            // Verify the deletion.
+            Console.WriteLine((string)testSettings.GetValue(
+                "id", "ID not found."));
+        }
+
+        // Delete or close the new subkey.
+        Console.Write("\nDelete newly created registry key? (Y/N) ");
+        if(Char.ToUpper(Convert.ToChar(Console.Read())) == 'Y')
+        {
+            Registry.CurrentUser.DeleteSubKeyTree("Test9999");
+            Console.WriteLine("\nRegistry key {0} deleted.", 
+                test9999.Name);
+        }
+        else
+        {
+            Console.WriteLine("\nRegistry key {0} closed.", 
+                test9999.ToString());
+            test9999.Close();
+        }
+    }
+}
+
+
+using System;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Security;
+using Microsoft.Win32;
+
+public class Example
+{
+
+    public static void Main()
+    {
+
+        string user = Environment.UserDomainName + "\\"
+            + Environment.UserName;
+
+        // Create a security object that grants no access.
+        RegistrySecurity mSec = new RegistrySecurity();
+
+        // Add a rule that grants the current user ReadKey
+        // rights. ReadKey is a combination of four other 
+        // rights. The rule is inherited by all 
+        // contained subkeys.
+        RegistryAccessRule rule = new RegistryAccessRule(user, 
+            RegistryRights.ReadKey, 
+            InheritanceFlags.ContainerInherit, 
+            PropagationFlags.None, 
+            AccessControlType.Allow);
+        mSec.AddAccessRule(rule);
+
+        // Create a rule that allows the current user only the 
+        // right to query the key/value pairs of a key, using  
+        // the same inheritance and propagation flags as the
+        // first rule. QueryValues is a constituent of 
+        // ReadKey, so when this rule is removed, using the 
+        // RemoveAccessRule method, ReadKey is broken into
+        // its constituent parts.
+        rule = new RegistryAccessRule(user, 
+            RegistryRights.QueryValues, 
+            InheritanceFlags.ContainerInherit, 
+            PropagationFlags.None, 
+            AccessControlType.Allow);
+        mSec.RemoveAccessRule(rule);
+
+        // Display the rules in the security object.
+        ShowSecurity(mSec);
+
+        // Add the second rule back. It merges with the 
+        // existing rule, so that the rule is now displayed
+        // as ReadKey.
+        mSec.AddAccessRule(rule);
+
+        // Display the rules in the security object.
+        ShowSecurity(mSec);
+    }
+
+    private static void ShowSecurity(RegistrySecurity security)
+    {
+        Console.WriteLine("\r\nCurrent access rules:\r\n");
+
+        foreach( RegistryAccessRule ar in security.GetAccessRules(true, true, typeof(NTAccount)) )
+        {
+            Console.WriteLine("        User: {0}", ar.IdentityReference);
+            Console.WriteLine("        Type: {0}", ar.AccessControlType);
+            Console.WriteLine("      Rights: {0}", ar.RegistryRights);
+            Console.WriteLine(" Inheritance: {0}", ar.InheritanceFlags);
+            Console.WriteLine(" Propagation: {0}", ar.PropagationFlags);
+            Console.WriteLine("   Inherited? {0}", ar.IsInherited);
+            Console.WriteLine();
+        }
+    }
+}
+
+using System;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Security;
+using Microsoft.Win32;
+
+public class Example
+{
+    public static void Main()
+    {
+        const string TestKey = "TestKey3927";
+        RegistryKey cu = Registry.CurrentUser;
+
+        string user = Environment.UserDomainName + 
+            "\\" + Environment.UserName;
+
+        // Create a security object that grants no access.
+        RegistrySecurity mSec = new RegistrySecurity();
+
+        // Add a rule that grants the current user the right
+        // to read and enumerate the name/value pairs in a key, 
+        // to read its access and audit rules, to enumerate
+        // its subkeys, to create subkeys, and to delete the key. 
+        // The rule is inherited by all contained subkeys.
+        //
+        RegistryAccessRule rule = new RegistryAccessRule(user, 
+           RegistryRights.ReadKey | RegistryRights.WriteKey 
+               | RegistryRights.Delete, 
+           InheritanceFlags.ContainerInherit, 
+           PropagationFlags.None, 
+           AccessControlType.Allow
+        );
+        mSec.AddAccessRule(rule);
+
+        // Add a rule that allows the current user the right
+        // right to set the name/value pairs in a key. 
+        // This rule is inherited by contained subkeys, but
+        // propagation flags limit it to immediate child 
+        // subkeys.
+        rule = new RegistryAccessRule(user, 
+            RegistryRights.ChangePermissions, 
+            InheritanceFlags.ContainerInherit, 
+            PropagationFlags.InheritOnly | 
+                PropagationFlags.NoPropagateInherit, 
+            AccessControlType.Allow);
+        mSec.AddAccessRule(rule);
+
+        // Display the rules in the security object.
+        ShowSecurity(mSec);
+
+        // Create the test key using the security object.
+        //
+        RegistryKey rk = cu.CreateSubKey(TestKey, 
+            RegistryKeyPermissionCheck.ReadWriteSubTree, mSec);
+
+        // Create a child subkey and a grandchild subkey, 
+        // without security.
+        RegistryKey rkChild = rk.CreateSubKey("ChildKey", 
+            RegistryKeyPermissionCheck.ReadWriteSubTree);
+        RegistryKey rkGrandChild = 
+            rkChild.CreateSubKey("GrandChildKey", 
+                RegistryKeyPermissionCheck.ReadWriteSubTree);
+
+        Show(rk);
+        Show(rkChild);
+        Show(rkGrandChild);
+
+        rkGrandChild.Close();
+        rkChild.Close();
+        rk.Close();
+
+        cu.DeleteSubKeyTree(TestKey);
+    }
+
+    private static void Show(RegistryKey rk)
+    {
+        Console.WriteLine(rk.Name);
+        ShowSecurity(rk.GetAccessControl());
+    }
+
+    private static void ShowSecurity(RegistrySecurity security)
+    {
+        Console.WriteLine("\r\nCurrent access rules:\r\n");
+
+        foreach( RegistryAccessRule ar in security.GetAccessRules(true, true, typeof(NTAccount)) )
+        {
+
+            Console.WriteLine("        User: {0}", ar.IdentityReference);
+            Console.WriteLine("        Type: {0}", ar.AccessControlType);
+            Console.WriteLine("      Rights: {0}", ar.RegistryRights);
+            Console.WriteLine(" Inheritance: {0}", ar.InheritanceFlags);
+            Console.WriteLine(" Propagation: {0}", ar.PropagationFlags);
+            Console.WriteLine("   Inherited? {0}", ar.IsInherited);
+            Console.WriteLine();
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+/*		Microsoft Internal noch mehr [assembly: attribute]
+
+
+     * Mögliche assembly sets in AssemblyFile.cs
+     * 
+    diese erzwingt Sicherheitsregel für eine Assembly durch die CLR
+    Sicherheitsregeln == SecurityRuleSet.Level1
+    [assembly: SecurityRules(SecurityRuleSet.Level1, SkipVerificationInFullTrust = true)]
+
+    [assembly: AssemblyDefaultAlias("System.Configuration.dll")]
+
+    [assembly: AssemblyFileVersion("4.7.2556.0")]
+    [assembly: AssemblyInformationalVersion("4.7.2556.0")]
+    [assembly: SatelliteContractVersion("4.0.0.0")]
+    [assembly: NeutralResourcesLanguage("en-US")]
+    [assembly: AssemblyDelaySign(true)]
+    [assembly: AssemblyKeyFile("f:\\dd\\tools\\devdiv\\FinalPublicKey.snk")]
+    [assembly: AssemblySignatureKey("<string>")]
+    [assembly: ComCompatibleVersion(1, 0, 3300, 0)]
+    [assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
+    [assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32 | DllImportSearchPath.AssemblyDirectory)]
+    [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
+    [assembly: AssemblyVersion("4.0.0.0")]
+
+    */
+
+/*
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class CUtility
+    {
+        /// <summary>
+        /// Cycle Redunance Checksum
+        /// </summary>
+        public class CRC32Util
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            protected uint[] tableCRC32_;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public CRC32Util()
+            {
+                tableCRC32_ = new uint[256];
+                uint num = 3988292384u;
+                for (int i = 0; i < 256; i++)
+                {
+                    uint num2 = (uint)i;
+                    for (int num3 = 8; num3 > 0; num3--)
+                    {
+                        num2 = (((num2 & 1) != 1) ? (num2 >> 1) : (num2 >> 1 ^ num));
+                    }
+                    tableCRC32_[i] = num2;
+                }
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="_obj_buff_stream"></param>
+            /// <returns></returns>
+            public long getCRC32(BufferedStream _obj_buff_stream)
+            {
+                int num = 0;
+                uint num2 = uint.MaxValue;
+                while ((num = _obj_buff_stream.ReadByte()) != -1)
+                {
+			       ((byte)num, num2);
+                }
+                return num2 = ~num2;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="_str_buff"></param>
+            /// <returns></returns>
+            public long getCRC32(string _str_buff)
+            {
+                uint num = uint.MaxValue;
+                for (int i = 0; i < _str_buff.Length; i++)
+                {
+			        ((byte)_str_buff[i], ref num);
+            }
+		    return num = ~num;
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="_buffer"></param>
+            /// <returns></returns>
+            public long getCRC32(byte[] _buffer)
+            {
+                uint num = uint.MaxValue;
+                for (int i = 0; i < _buffer.Length; i++)
+                {
+			(_buffer[i], ref num);
+            }
+        
+        //
+		return num = ~num;
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            internal void (byte , ref uint )
+	        {
+		       = ( >> 8 ^ tableCRC32_[ ^ ( &0xFF)]);
+	        }
+        }
+
+} // End of Class CUtility
+
+*/
+
+
+ /*	.NET Framework Developer sourcecode:
+     *  initialze the structure member dwLength,
+     *  sizeof Structure!
+     *  same Windows Structs have this member.
+     *  here sample for Visual C#.
+     *  
+    internal void Init()
+    {
+        dwLength = checked((uint)Marshal.SizeOf(typeof(MEMORYSTATUSEX)));
+    }
+
+	--------------------------------------------------------------------------------------
+    // Windows Operation System have Functions and Structures with suffix EX, Ex
+    // Windows calls them permament !, Please write in .NET a Wrapper Method !!!.
+    // DON'T CALL THEM DIRECTLY !!!.
+	--------------------------------------------------------------------------------------
+    internal struct MEMORYSTATUSEX
+	{
+		internal uint dwLength;
+
+		internal uint dwMemoryLoad;
+
+		internal ulong ullTotalPhys;
+
+		internal ulong ullAvailPhys;
+
+		internal ulong ullTotalPageFile;
+
+		internal ulong ullAvailPageFile;
+
+		internal ulong ullTotalVirtual;
+
+		internal ulong ullAvailVirtual;
+
+		internal ulong ullAvailExtendedVirtual;
+
+		internal void Init()
+		{
+			dwLength = checked((uint)Marshal.SizeOf(typeof(MEMORYSTATUSEX)));
+		}
+}
+// Microsoft.AE.NativeMethods
+using System.Runtime.InteropServices;
+
+class constructor()
+{
+public const int WM_MOUSEMOVE = 512;
+public const int WM_XBUTTONDOWN = 523;
+public const int WM_LBUTTONDOWN = 513;
+public const int WM_RBUTTONDOWN = 516;
+public const int WM_DRAWCLIPBOARD = 776;
+public const int WM_CHANGECBCHAIN = 781;
+public const int WM_MBUTTONDOWN = 519;
+public const int WM_MOUSEWHEEL = 522;
+public const int WM_CONTEXTMENU = 123;
+public const int WM_PAINT = 15;
+public const int WM_ERASEBKG = 20;
+public const int WM_ACTIVATE = 6;
+public const int WM_NCACTIVATE = 134;
+public const int WM_PRINTCLIENT = 792;
+public const int WM_WINDOWPOSCHANGED = 71;
+public const int WM_WINDOWPOSCHANGING = 70;
+public const int WM_MOUSEACTIVATE = 33;
+public const int WM_PARENTNOTIFY = 528;
+public const int WM_CTLCOLOREDIT = 307;
+public const int WM_CTLCOLORSTATIC = 312;
+public const int DI_MASK = 1;
+public const int DI_IMAGE = 2;
+public const int DI_NORMAL = 3;
+public const int DI_COMPAT = 4;
+public const int DI_DEFAULTSIZE = 8;
+public const int CBM_FIRST = 5888;
+public const int CB_SETMINVISIBLE = 5889;
+public const int CB_GETMINVISIBLE = 5890;
+public const int CB_SETCUEBANNER = 5891;
+public const int CB_RESETCONTENT = 331;
+public const int CREDUI_MAX_USERNAME_LENGTH = 513;
+public const int CREDUI_MAX_PASSWORD_LENGTH = 256;
+public const int CREDUI_MAX_DOMAIN_TARGET_LENGTH = 337;
+public const int ECM_FIRST = 5376;
+public const int EM_SETCUEBANNER = 5377;
+public const int EM_SHOWBALLOONTIP = 5379;
+public const int EM_HIDEBALLOONTIP = 5380;
+public const int WM_NCPAINT = 133;
+public const int WM_HSCROLL = 276;
+public const int WM_VSCROLL = 277;
+public const int WM_USER = 1024;
+public const int EM_PASTESPECIAL = 1088;
+public const int WM_NOTIFY = 78;
+public const int WM_REFLECT = 8192;
+public const int WM_COMMAND = 273;
+public const int WM_PASTE = 770;
+public const int WM_NCHITTEST = 132;
+public const int WM_NCCALCSIZE = 131;
+public const int WM_SETREDRAW = 11;
+public const int WM_DWMCOMPOSITIONCHANGED = 798;
+public const int WS_BORDER = 8388608;
+public const int WS_EX_CLIENTEDGE = 512;
+public const int BS_COMMANDLINK = 14;
+public const int BS_DEFCOMMANDLINK = 15;
+public const int BS_SPLITBUTTON = 12;
+public const int BS_DEFSPLITBUTTON = 13;
+public const int BCM_FIRST = 5632;
+public const int BCM_SETNOTE = 5641;
+public const int BCM_SETSHIELD = 5644;
+public const int BCCL_NOGLYPH = -1;
+public const int BCM_SETIMAGELIST = 5634;
+public const int PBM_SETSTATE = 1040;
+public const int LVS_EX_DOUBLEBUFFER = 65536;
+public const int LVS_EX_AUTOSIZECOLUMNS = 268435456;
+public const int LVS_EX_AUTOCHECKSELECT = 134217728;
+public const int LVS_EX_HEADERINALLVIEWS = 33554432;
+public const int LVM_FIRST = 4096;
+public const int LVM_RESETEMPTYTEXT = 4180;
+public const int LVN_FIRST = -100;
+public const int LVN_GETEMPTYMARKUP = -187;
+public const int TVS_EX_FADEINOUTEXPANDOS = 64;
+public const int TVS_EX_AUTOHSCROLL = 32;
+public const int TVS_NOHSCROLL = 32768;
+public const int TV_FIRST = 4352;
+public const int TVM_SETEXTENDEDSTYLE = 4396;
+public const int EMF_CENTERED = 1;
+public const int CFM_UNDERLINETYPE = 8388608;
+public const int EM_SETCHARFORMAT = 1092;
+public const int EM_GETCHARFORMAT = 1082;
+public const int EM_SETEVENTMASK = 1073;
+public const int EM_GETPARAFORMAT = 1085;
+public const int EM_SETPARAFORMAT = 1095;
+public const int EM_SETTYPOGRAPHYOPTIONS = 1226;
+public const int EM_SETREADONLY = 207;
+public const int TO_ADVANCEDTYPOGRAPHY = 1;
+public const int PFM_ALIGNMENT = 8;
+public const int SCF_SELECTION = 1;
+public const int TMT_TRANSITIONDURATIONS = 6000;
+private const int DTT_COMPOSITED = 8192;
+private const int DTT_GLOWSIZE = 2048;
+private const int DTT_TEXTCOLOR = 1;
+public const byte AC_SRC_OVER = 0;
+public const byte AC_SRC_ALPHA = 1;
+ }
+
+
+
+
+
+
+
+
+
+TIPPO Idea for Projects Directories/Paths - see Microsft Framework Guideline
+--------------------------------------------------------------------------------------------------------------------------OS-Operation System
+------- Here Company------------Technic-----------Programmer----Main-Dir---------Team---------------MASTER DIR-SOURCE---PART-----OS-----OBJECT-C#---Part.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\Windows\obj\cs\VGF.Environments.Windows.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\Android\obj\cs\VGF.Environments.Android.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\ios\obj\cs\VGF.Environments.iOS.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\macOS\obj\cs\VGF.Environments.macOS.cs 
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\tvOS\obj\cs\VGF.Environments.tvOS .cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\watchOS\obj\cs\VGF.Environments.watchOS.cs 
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\AIX\obj\cs\VGF.Environments.AIX.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\i OS\obj\cs\VGF.Environments.IBM.i_OS.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\Linux\obj\cs\VGF.Environments.Linux.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\Unix\obj\cs\vgf.Environments.Unix.cs
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Windows 10 OS-Build 17738 V 1809 namespaces:
+(written in Visual C++.NET and Visual C# and native part)
+
+namespace Windows.UI.Shell {
+  public enum SecurityAppKind
+  public sealed class SecurityAppManager
+  public struct SecurityAppManagerContract
+  public enum SecurityAppState
+  public enum SecurityAppSubstatus
+  public sealed class TaskbarManager {
+    IAsyncOperation<bool> IsSecondaryTilePinnedAsync(string tileId);
+    IAsyncOperation<bool> RequestPinSecondaryTileAsync(SecondaryTile secondaryTile);
+    IAsyncOperation<bool> TryUnpinSecondaryTileAsync(string tileId);
+  }
+}
+
+namespace Windows.System.Update {
+  public enum SystemUpdateAttentionRequiredReason
+  public sealed class SystemUpdateItem
+  public enum SystemUpdateItemState
+  public sealed class SystemUpdateLastErrorInfo
+  public static class SystemUpdateManager
+  public enum SystemUpdateManagerState
+  public enum SystemUpdateStartInstallAction
+}
+
+
+namespace Windows.System.RemoteSystems {
+  public sealed class RemoteSystem {
+    IVectorView<RemoteSystemApp> Apps { get; }
+  }
+  public sealed class RemoteSystemApp
+  public sealed class RemoteSystemAppRegistration
+  public sealed class RemoteSystemConnectionInfo
+  public sealed class RemoteSystemConnectionRequest {
+    RemoteSystemApp RemoteSystemApp { get; }
+    public static RemoteSystemConnectionRequest CreateForApp(RemoteSystemApp remoteSystemApp);
+  }
+  public sealed class RemoteSystemWebAccountFilter : IRemoteSystemFilter
+}
+
+
+namespace Windows.ApplicationModel {
+  public sealed class AppInstallerInfo
+  public sealed class LimitedAccessFeatureRequestResult
+  public static class LimitedAccessFeatures
+  public enum LimitedAccessFeatureStatus
+  public sealed class Package {
+    IAsyncOperation<PackageUpdateAvailabilityResult> CheckUpdateAvailabilityAsync();
+    AppInstallerInfo GetAppInstallerInfo();
+  }
+  public enum PackageUpdateAvailability
+  public sealed class PackageUpdateAvailabilityResult
+}
+namespace Windows.ApplicationModel.Calls {
+  public sealed class VoipCallCoordinator {
+    IAsyncOperation<VoipPhoneCallResourceReservationStatus> ReserveCallResourcesAsync();
+  }
+}
+namespace Windows.ApplicationModel.Chat {
+  public static class ChatCapabilitiesManager {
+    public static IAsyncOperation<ChatCapabilities> GetCachedCapabilitiesAsync(string address, string transportId);
+    public static IAsyncOperation<ChatCapabilities> GetCapabilitiesFromNetworkAsync(string address, string transportId);
+  }
+  public static class RcsManager {
+    public static event EventHandler<object> TransportListChanged;
+  }
+}
+namespace Windows.ApplicationModel.DataTransfer {
+  public static class Clipboard {
+    public static event EventHandler<ClipboardHistoryChangedEventArgs> HistoryChanged;
+    public static event EventHandler<object> HistoryEnabledChanged;
+    public static event EventHandler<object> RoamingEnabledChanged;
+    public static bool ClearHistory();
+    public static bool DeleteItemFromHistory(ClipboardHistoryItem item);
+    public static IAsyncOperation<ClipboardHistoryItemsResult> GetHistoryItemsAsync();
+    public static bool IsHistoryEnabled();
+    public static bool IsRoamingEnabled();
+    public static bool SetContentWithOptions(DataPackage content, ClipboardContentOptions options);
+    public static SetHistoryItemAsContentStatus SetHistoryItemAsContent(ClipboardHistoryItem item);
+  }
+  public sealed class ClipboardContentOptions
+  public sealed class ClipboardHistoryChangedEventArgs
+  public sealed class ClipboardHistoryItem
+  public sealed class ClipboardHistoryItemsResult
+  public enum ClipboardHistoryItemsResultStatus
+  public sealed class DataPackagePropertySetView : IIterable<IKeyValuePair<string, object>>, IMapView<string, object> {
+    bool IsFromRoamingClipboard { get; }
+    string SourceDisplayName { get; }
+  }
+  public enum SetHistoryItemAsContentStatus
+}
+namespace Windows.ApplicationModel.Store.Preview {
+  public enum DeliveryOptimizationDownloadMode
+  public enum DeliveryOptimizationDownloadModeSource
+  public sealed class DeliveryOptimizationSettings
+  public static class StoreConfiguration {
+    public static bool IsPinToDesktopSupported();
+    public static bool IsPinToStartSupported();
+    public static bool IsPinToTaskbarSupported();
+    public static void PinToDesktop(string appPackageFamilyName);
+    public static void PinToDesktopForUser(User user, string appPackageFamilyName);
+  }
+}
+namespace Windows.ApplicationModel.Store.Preview.InstallControl {
+  public enum AppInstallationToastNotificationMode
+  public sealed class AppInstallItem {
+    AppInstallationToastNotificationMode CompletedInstallToastNotificationMode { get; set; }
+    AppInstallationToastNotificationMode InstallInProgressToastNotificationMode { get; set; }
+    bool PinToDesktopAfterInstall { get; set; }
+    bool PinToStartAfterInstall { get; set; }
+    bool PinToTaskbarAfterInstall { get; set; }
+  }
+  public sealed class AppInstallManager {
+    bool CanInstallForAllUsers { get; }
+  }
+  public sealed class AppInstallOptions {
+    string CampaignId { get; set; }
+    AppInstallationToastNotificationMode CompletedInstallToastNotificationMode { get; set; }
+    string ExtendedCampaignId { get; set; }
+    bool InstallForAllUsers { get; set; }
+    AppInstallationToastNotificationMode InstallInProgressToastNotificationMode { get; set; }
+    bool PinToDesktopAfterInstall { get; set; }
+    bool PinToStartAfterInstall { get; set; }
+    bool PinToTaskbarAfterInstall { get; set; }
+    bool StageButDoNotInstall { get; set; }
+  }
+
+  // Old Windows have SoftwareUpdateMessageBox function
+  // DWORD SoftwareMessageBox(
+						  HWND           hWnd,
+						  PCWSTR         pszDistUnit,
+						  DWORD          dwFlags,
+						  LPSOFTDISTINFO psdi
+						);
+
+Structure for Function SoftwareMessageBox
+typedef struct _tagSOFTDISTINFO {
+							  ULONG  cbSize;
+							  DWORD  dwFlags;
+							  DWORD  dwAdState;
+							  LPWSTR szTitle;
+							  LPWSTR szAbstract;
+							  LPWSTR szHREF;
+							  DWORD  dwInstalledVersionMS;
+							  DWORD  dwInstalledVersionLS;
+							  DWORD  dwUpdateVersionMS;
+							  DWORD  dwUpdateVersionLS;
+							  DWORD  dwAdvertisedVersionMS;
+							  DWORD  dwAdvertisedVersionLS;
+							  DWORD  dwReserved;
+							} SOFTDISTINFO, *LPSOFTDISTINFO;
+
+
+  // WebChannel: WebServer have new update of App once for all users.
+  // control in struct was InstallVersion, UpdateVersion
+  // "You have now new update of App!"
+  // automatic download
+  public sealed class AppUpdateOptions {
+    bool AutomaticallyDownloadAndInstallUpdateIfFound { get; set; }
+  }
+}
+
+
+namespace Windows.ApplicationModel.UserActivities {
+  public sealed class UserActivity {
+    bool IsRoamable { get; set; }
+  }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+public enum ErrorCode:
+Defines the error codes that can be returned by the ErrorCode property.
+
+Cancelled 
+11
+The action was cancelled.
+ClientConfiguration 
+3
+The AdControl or InterstitialAd has not been configured properly.
+CreativeError 
+8
+The ad creative experienced an error.
+FileOperationFailure 
+12
+An error occurred while performing a file operation.
+InvalidServerResponse 
+5
+The server response contained invalid data.
+MraidOperationFailure 
+9
+An error occurred while performing an MRAID operation triggered by the ad.
+NetworkConnectionFailure 
+2
+A connection to the network could not be established.
+NoAdAvailable 
+1
+No ad is available.
+Other 
+6
+The error cannot be classified as one of the known errors.
+ParseToBOMFailure 
+13
+An error occurred while extracting data from the ad payload.
+RefreshNotAllowed 
+7
+Banner ad refresh is not allowed for 60 seconds after the ad is displayed. 
+If you receive additional error text saying “refresh not performed because ad is not on screen” 
+then check to make sure the size of the AdControl is set to a size that can display a banner ad.
+ServerSideError 
+4
+The ad server network has reported that a server error has occurred.
+Success 
+10
+The action succeeded.
+Unknown 
+0
+An exception has been thrown but the state or cause cannot be determined.
+ValidationFailure 
+14
+An error occurred during validation of the ad payload.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+        Beispiele:
+        öffnende geschweifte Klammer f—left curly bracket n  ·  opening curly bracket n ·  left brace n
+        rechte geschweifte Klammer f—right curly bracket n  ·  closing curly bracket n ·  right brace n
+        schließende geschweifte Klammer f—closing curly bracket n ·  right curly bracket n  ·  right brace n
+        linke geschweifte Klammer f—left curly bracket n  ·  opening curly bracket n ·  left brace n
+        */
+
+// } f-closing curly bracket - forgotten delete this right curly bracket, so the class ends here, other stand make errors!
+
+
+/*
+            IsWin7orLater = (oSVersion.Version >= new Version(6, 1));
+            IsWin7Sp1orLater = (oSVersion.Version >= new Version(6, 1, 7601));
+            IsWin8orLater = (oSVersion.Version >= new Version(6, 2));
+            IsWin81orLater = (oSVersion.Version >= new Version(6, 3));
+            // Windows Operation System 10:
+            // First is Major-version, Second is Minor-version, Third is Buildnumber, Fourth is Revisionnumber
+            // NOTE ! Microsoft increment the Revisionnumber in Time, Corrections, Bugfixes...
+            IsWin10with15063 = (oSVersion.Version >= new Version(6, 2, 15063, 0));
+            // Fall creators Update
+            IsWin10with16299 = (oSVersion.Version >= new Version(6, 2, 16299, 334));
+            // Spring Creators Update
+            IsWin10with17130 = (oSVersion.Version >= new Version(6, 2, 17130, 0));
+        */
+
+
+
+ /// <summary>
+        /// Handle of Result
+        /// </summary>
+        /// <!-- Author Tipplin -->
+        /// 
+        /// <!-- Author Tipplin -->
+        /// <remarks>
+        /// see after HRESULT(0u) the u for unsigned integer,
+        /// for unsigned long - ul
+        /// </remarks>
+        [StructLayout(LayoutKind.Explicit)]
+        internal struct HRESULT
+        {
+            [FieldOffset(0)]
+            internal readonly uint _value;
+
+            public static readonly HRESULT S_OK = new HRESULT(0u);
+
+            public static readonly HRESULT S_FALSE = new HRESULT(1u);
+
+            public static readonly HRESULT E_NOTIMPL = new HRESULT(2147500033u);
+
+            public static readonly HRESULT E_NOINTERFACE = new HRESULT(2147500034u);
+
+            public static readonly HRESULT E_POINTER = new HRESULT(2147500035u);
+
+            public static readonly HRESULT E_ABORT = new HRESULT(2147500036u);
+
+            public static readonly HRESULT E_FAIL = new HRESULT(2147500037u);
+
+            public static readonly HRESULT E_UNEXPECTED = new HRESULT(2147549183u);
+
+            public static readonly HRESULT DISP_E_MEMBERNOTFOUND = new HRESULT(2147614723u);
+
+            public static readonly HRESULT DISP_E_TYPEMISMATCH = new HRESULT(2147614725u);
+
+            public static readonly HRESULT DISP_E_UNKNOWNNAME = new HRESULT(2147614726u);
+
+            public static readonly HRESULT DISP_E_EXCEPTION = new HRESULT(2147614729u);
+
+            public static readonly HRESULT DISP_E_OVERFLOW = new HRESULT(2147614730u);
+
+            public static readonly HRESULT DISP_E_BADINDEX = new HRESULT(2147614731u);
+
+            public static readonly HRESULT DISP_E_BADPARAMCOUNT = new HRESULT(2147614734u);
+
+            public static readonly HRESULT DISP_E_PARAMNOTOPTIONAL = new HRESULT(2147614735u);
+
+            public static readonly HRESULT SCRIPT_E_REPORTED = new HRESULT(2147614977u);
+
+            public static readonly HRESULT STG_E_INVALIDFUNCTION = new HRESULT(2147680257u);
+
+            public static readonly HRESULT DESTS_E_NO_MATCHING_ASSOC_HANDLER = new HRESULT(2147749635u);
+
+            public static readonly HRESULT E_ACCESSDENIED = new HRESULT(2147942405u);
+
+            public static readonly HRESULT E_OUTOFMEMORY = new HRESULT(2147942414u);
+
+            public static readonly HRESULT E_INVALIDARG = new HRESULT(2147942487u);
+
+            public static readonly HRESULT COR_E_OBJECTDISPOSED = new HRESULT(2148734498u);
+
+            public static readonly HRESULT WC_E_GREATERTHAN = new HRESULT(3222072867u);
+
+            public static readonly HRESULT WC_E_SYNTAX = new HRESULT(3222072877u);
+
+			 public Facility Facility => GetFacility((int)_value);
+
+            public int Code => GetCode((int)_value);
+
+            public bool Succeeded => (int)_value >= 0;
+
+            public bool Failed => (int)_value < 0;
+
+
+            public HRESULT(uint i)
+            {
+                _value = i;
+            }
+
+			/// <summary>
+            /// Make your HRESULT for your Project.
+            /// </summary>
+            /// <param name="severe"></param>
+            /// <param name="facility"></param>
+            /// <param name="code"></param>
+            /// <remarks>
+            /// !!! MAKE SURE THAT YOU MAKE HRESULT's, OVER MICROSOFT RESERVED !!!
+            /// HRESULT are Hexadecimal values - decimal with prefix minus sign -2147483648
+            /// !NOTE! in Exception Block - HResult is a property is now open for use,
+            /// catch(Exception ex)if(ex.HResult == 0x000000c5) {...}
+            /// before was hidden!.
+            /// </remarks>
+            /// <returns>
+            /// returned HRESULT value
+            /// </returns>
+            public static HRESULT MakeHRESULT(bool severe, Facility facility, int code)
+            {
+                return new HRESULT((uint)((severe ? (-2147483648) : 0) | (int)facility << 16 | code));
+            }
+
+            /// <summary>
+            /// Get the Facility for Error Code
+            /// </summary>
+            /// <param name="errorCode"></param>
+            /// <remarks>
+			/// Facility is the 28BIT in 32----0 BIT
+            /// Facility is Hardware and Software.
+            /// </remarks>
+            /// <returns></returns>
+            public static Facility GetFacility(int errorCode)
+            {
+                return (Facility)(errorCode >> 16 & 0x1FFF);
+            }
+
+            /// <summary>
+            /// Get Code
+            /// </summary>
+            /// <param name="error"></param>
+            /// <returns></returns>
+            public static int GetCode(int error)
+            {
+                return error & 0xFFFF;
+            }
+
+			/*
+        internal bool VRLGetSystemTimeAsFileTime()
+        {
+            CUnsafeNativeStructs.FILE_TIME fILE_TIME = default(CUnsafeNativeStructs.FILE_TIME);
+            NativeMethods.CUnsafeNativeMethods.GetSystemTimeAsFileTime(ref fILE_TIME);
+
+        }
+        */
+
+
+...
+RegistryKey MyReg = Registry.CurrentUser.CreateSubKey
+                     ("SOFTWARE\\SomeCompany\\SomeApp\\SomeVer");
+int nSomeVal = (int)MyReg.GetValue("SomeVal", 0);
+MyReg.SetValue("SomeValue", nSomeVal+1);
+MyReg.Close();
+...
+
+where the string subkey represents the name or path of the subkey to create. 
+key name\Company Name\Application Name\version. 
+For example, any Windows® entry is situated in: SOFTWARE\Microsoft\Windows. You could check this out for yourself by opening the registry.
+public RegistryKey CreateSubKey(string subkey);
+
+...
+RegistryKey MyReg = Registry.CurrentUser.OpenSubKey
+            ("SOFTWARE\\SomeCompany\\SomeApp\\SomeVer", true);
+...
+
+public object GetValue(string name);
+
+which returns the data associated with the value represented by name in the subkey, or the default value specified by the object defaultValue.
+public object GetValue(string name, object defaultValue);
+
+The string name represents the name of the value to store the data in. The object value represents the data you want to store. Since value is of type object, you could pass any object to it. It gets converted to DWORD, binary or string internally. And that's the reason why RegistryKey.GetValue method returns data in the type object and not the original types.
+To store data in a subkey's default value, just set name as an empty string.
+public void SetValue(string name, object value);
+
+
+...
+RegistryKey MyReg = Registry.CurrentUser.CreateSubKey
+                     ("SOFTWARE\\SomeCompany\\SomeApp\\SomeVer");
+int nSomeVal = (int)MyReg.GetValue("SomeVal", 0);
+MyReg.SetValue("SomeValue", nSomeVal+1);
+MyReg.Close();
+...
+
+which deletes the subkey specified in subkey (provided, the subkey exists and no child keys or child subkeys are present in it), and,
+public void DeleteSubKey(string subkey);
+
+which deletes the subkey specified in subkey (with the same condition stated above), and if the subkey can't be found, it raises an exception if throwOnMissingSubKey is true.
+public void DeleteSubKey(string subkey, bool throwOnMissingSubKey);
+
+To delete an entire subkey tree including child keys, values etc., you use the RegistryKey.DeleteSubKeyTree method:
+public void DeleteSubKeyTree(string subkey);
+
+To delete values, use any of the 2 overloads of the RegistryKey.DeleteValue method:
+public void DeleteValue(string name);
+
+To obtain a list of all the subkeys (child keys) that exist within your present RegistryKey object, use the RegistryKey.GetSubKeyNames method:
+public string[] GetSubKeyNames();
+
+To obtain a list of all the values that exist within your present RegistryKey object, use the RegistryKey.GetValueNames method:
+public string[] GetValueNames(); 
+
+// hardware vendor info
+// key's SystemManufacturer, SystemProductName, ComputerHardwareId {9fbc4efa-f875-55ec-b7a9-7dee83bb0724}
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SystemInformation
+
+// UBR Key for Windows Operation System OS-Build 18362 and Revision 207 27.06.2019
+hexadecimal = decimal
+cf = 207
+
+// CSDBuildNumber means Revision cf
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Windows
+
+// Windows NT Main Key
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion
+
+// What Windows 10 Edition ?
+// EditionID
+// Professional
+// NOTE: Professional is an Workstation, so more networking with Libraries - Client/Server System -
+// 2018 come an new edition Windows 10 Professional for Workstations - Workgroups -
+// 6 Terabyte RAM and 4 Processors allowed. 
+// (Tipplin: No Vendors make Terabyte RAM's - highest is 256 Gigabyte - 
+// 64GB X 4 by 64BIT System only ! RAM-BANK 0 to RAM-BANK 3, Intel make info for use RAM-BANK as Memory, holds Operations inside for faster access.
+// Intel Rapid Storage Tool as download more storage ! and RAID extention in ROM, Intel Processors can extend with Microcodes into Processors
+// RAID 0, 5, 10 - inside Harddrive Data Cache)
+//
+// next Windows 10 - 20H1 - 2020 with more Networking, Cloud, AI/KI, Machine Learing, Cluster/Cluster API,
+// Windows 10 - 20H1 - 2020 - SDK 18917 at Time newest, at C/C++ Headerfiles over 2100 Files.
+// best same with sourcecode at complete Functions for directly use !.
+// NOTE: may be that there will be a 128BIT operating system as tribute to BIG DATA.
+// next Windows 10 - 2020 have more 128BIT Functions and Structs,
+// Headerfiles with Prototypes for Processor Info. Bit and Bytes.
+// SDK Headerfiles total 4553 Files in 20 Folders.
+//
+// Some Vendors at Time unsupported 32BIT more, IBM, Apple, Nvidia
+// 32BIT Area goes end !.
+// INFO: Cray Exascale Supercomputer 2019 have one Quintillion with double Presion for BIG DATA.
+// one Quintillion have 30 zeros - 1000000000000000000000000000000 -
+// Wikipedia have an table. - duzentilliarde 1 and 1203 Zeros the last.
+// 2020 Big Data Year with Factor 17 with ZettaBinarybyte and YottaBinaryByte.
+// Where are the Hardware Vendors ??? by RAM's and Harddrive, 
+// only Seagate Harddrive 100 TeraBinaryByte is hybrid Laser read and normal read head, 450° hot colded with Helium, 15000 U/m.
+
+
+// BuildLab (BuildLabEx)
+// means when is the Operation System compiled
+// first is OS-Build Version 18362 and half first release in Year and then day and time 18.03.2019 at 12:02
+// 18362.19h1_release.190318-1202
+
+
+
+// Windows NT subkey Winlogon
+// keyname: LastUsedUsername
+// means while the Windows 10 Operation System is an Multiple User System,
+// one user or more users on one Computer.
+//
+// PasswordExpiryWarning
+// standard set at install is never
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+
+
+
+
+
