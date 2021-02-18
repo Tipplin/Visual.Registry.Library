@@ -224,8 +224,10 @@ namespace Visual.Registry.Library.Internal
             * Section: add, delete, change
             * All can crypted the Configration File, unauthorized use! (ASP.NET Security Class)
             * 
-            * ! own long .suffixes now allowed in .NET
-            * 
+            * ! own long .suffixes now allowed in .NET, now set your own suffixes - limit 255 chars !
+            * prefix.suffix - filename.own-suffix
+            * for Windows 10 tell him this suffix in the tool assoc.exe - file associations
+            * .dll=dllfile - my association for file library and suffix .dllfile
             */
 
             appconfig,                  // user application configuratin file
