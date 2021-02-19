@@ -3,7 +3,7 @@
 // Project		:	Visual.Galaxy.Framework
 //
 //-----------------------------------------------------------------------------
-// Programmer	:	Christian "TIPPO" Kurs
+// Programmer	:	Christian "Tipplin" Kurs
 //-----------------------------------------------------------------------------
 // Part         :	Visual.Registry.Library
 //-----------------------------------------------------------------------------
@@ -22,29 +22,30 @@
 //              :
 //              :
 //------------------------------------------------------------------------------
-// Copyright © 2018, by Visual Galaxy Framework Community Kernel Developer Team
+// Copyright © 2017 - 2021, 
+// by Visual Galaxy Framework Community Kernel Developer Team
 //
 // by Head-Author: Christian "TIPPO" Kurs - Visual C# Senior Developer
-// Portions Copyright © 2018 by Microsoft Corporation GmbH.
+// Portions Copyright © 1982-2021 by Microsoft Corporation GmbH.
 //
 // Same sourcecode by Microsoft, so we marked with Copyright !.
-// © 1982 - 2018 - Copyrights by Microsoft: Images, Icons, Signs, Gadgets, 
+// © 1982 - 2021 - Copyrights by Microsoft: Images, Icons, Signs, Gadgets, 
 // Copyright © and Tradewark by Microsoft Windows, Windows Logo, Visual Studio
 // ----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 //
-// written by 		Christian "TIPPO" Kurs
-// 				    Nettweg 1
-//					-G - 53498 Bad Breisig
+// written by 		Christian "Tipplin" Kurs
+// 				    Ahornweg 1
+//					-G - 53177 Bonn 
 //					Germany - Allemagne - Duitsland
 //-----------------------------------------------------------------------------
-// 				    voice				:	02633 - 470736  
-//					international phone	:	00-49-2633-470736
+//					mobile              :   0049 173 4593440
 //					Skype				:
 //					e-mail				:	kurschristian@gmail.de
 //					my Website Community:	http://www.vgfc.org/community/tippo
 //					
-//                  my google account   :   https://mail.google.com/mail/kurschristian
+//                  my google account   :   
+//                  https://mail.google.com/mail/kurschristian
 //----------------------------------------------------------------------------
 // This software is supplied as is. Use it at your own  RISK !!!!.
 // Obviously I've tried to do the best job possible.
@@ -56,13 +57,13 @@
 //				NO fee for NON-Commercial use.
 //				our Community Website: 
 //				
-//				http://www.vgfc.org/community/project/vgfc/
+//		
 //
 //				Honest Business Users, to use our compiled Versions, 
 //				please call us to send you our Business Licenses.
 //				or our Business Website:
 //				
-//				http://www.vgfc.org/business/vgfc/License
+//				
 //
 //----------------------------------------------------------------------------
 
@@ -101,7 +102,8 @@ namespace Visual.Registry.Library
         #region ### Global Class Instances here for all Methods in Class ###
 
         #region ### Class Registrykey Instances with Paths ###
-
+        
+        // In Visual C# allowed constants, instance set into Class Header
         // opening the registry-key on local machine, our system-settings
         // write using block, so we safe exception-handling
         // now in using block inside the try/catch block.
