@@ -3,7 +3,7 @@
 // Project		:	Visual.Galaxy.Framework
 //
 //-----------------------------------------------------------------------------
-// Programmer	:	Christian "TIPPO" Kurs
+// Programmer	:	Christian "Tipplin" Kurs
 //-----------------------------------------------------------------------------
 // Part         :	Visual.Registry.Library
 //-----------------------------------------------------------------------------
@@ -15,57 +15,32 @@
 //              :   but in Project only build and revision
 //              :   set build option, so he show the complete Build-Run
 //              :   Build-Run Log in Project-Directory: Projectname.log
-//-----------------------------------------------------------------------------
-// Specials     :   Visual Studio 2019 Version 16 - Build 16.2.2 after Bugsfix
-//              :   Change Platform to .NET Framework 4.8 !!!
-//              :   Windows 10 OS-Build 18362 Revision 10005 after MS Skip
-//              :   Windows 10 registry entry for Release Service:
-//              :   BuildLab and BuildLabEx
-//              :   18362.19h1_release_svc_19h2_rel.190621-1123
-//              :   19h1_rel.190621-1123 - first half year release and
-//              :   Compiled date and Time: 21.06.2019 at 11:13
 //------------------------------------------------------------------------------
-// Subject to change from the Microsoft Community .NET
-// at Novembre 2020 the .NET Framework 5.0 on Platform for all Systems.
-// Operation System Bridges to other OS-Systems
-// Microsoft make change by Development Team from C/C++ to Rust,
-// C/C++ many Problems about Security, Memory Functions, 
-// Rust have Security on Board about System Functions.
-//
-// For All:Windows Operation System goes Open Source on GitHub with MIT License.
-// COOL STAFF:
-// Windows 10 Calculator in C++, Windows Implementation Libraries, 
-// Windows 10 Terminal - Powershell, cmd, WSL Linux on one UI.
-// Windows Runtime Library in C++ - ucrt.dll - universal C runtime library -
-// OLD Windows File Manager in C++
-// For Community Members with Microsoft Account the
-// Windows Research Kernel Files with sourcecode in C/C++
-//
-// Windows 10 Sandbox with continue Problem - Microsoft works an Workround.
 //------------------------------------------------------------------------------
-// Copyright © 2019, by Visual Galaxy Framework Community Kernel Developer Team
+// Copyright © 2017 - 2021
+// by Visual Galaxy Framework Community Kernel Developer Team
 //
-// by Head-Author: Christian "TIPPO" Kurs - Visual C# Senior Developer
-// Portions Copyright © 2019 by Microsoft Corporation GmbH.
+// by Head-Author: Christian "Tipplin" Kurs - Visual C# Senior Developer
+// Portions Copyright © 1982-2019 by Microsoft Corporation GmbH.
 //
 // Same sourcecode by Microsoft, so we marked with Copyright !.
-// © 1982 - 2019 - Copyrights by Microsoft: Images, Icons, Signs, Gadgets, 
+// © 1982-2021 - Copyrights by Microsoft: Images, Icons, Signs, Gadgets, 
 // Copyright © and Tradewark by Microsoft Windows, Windows Logo, Visual Studio
 // ----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 //
 // written by 		Christian "TIPPO" Kurs
-// 				    Nettweg 1
-//					-G - 53498 Bad Breisig
+// 				    Ahornweg 1
+//					-G - 53177 Bonn
 //					Germany - Allemagne - Duitsland
 //-----------------------------------------------------------------------------
-// 				    voice				:	02633 - 470736  
-//					international phone	:	00-49-2633-470736
+//                  mobile              :   0049 173 4593440
 //					Skype				:
 //					e-mail				:	kurschristian@gmail.de
-//					my Website Community:	http://www.vgfc.org/community/tippo
+//					my Website Community:	
 //					
-//                  my google account   :   https://mail.google.com/mail/kurschristian
+//                  my google account   :   
+//                  https://mail.google.com/mail/kurschristian
 //----------------------------------------------------------------------------
 // This software is supplied as is. Use it at your own  RISK !!!!.
 // Obviously I've tried to do the best job possible.
@@ -77,110 +52,15 @@
 //				NO fee for NON-Commercial use.
 //				our Community Website: 
 //				
-//				http://www.vgfc.org/community/project/vgfc/
+//				
 //
 //				Honest Business Users, to use our compiled Versions, 
 //				please call us to send you our Business Licenses.
 //				or our Business Website:
 //				
-//				http://www.vgfc.org/business/vgfc/License
+//				
 //
 //----------------------------------------------------------------------------
-// Same specified to Project "Visual.Galaxy.Framework":
-// 
-// 	    Bugfix 			-	for Errors (clean up's)
-//
-//		Hotfix			-	pass to Operation System-update, bugfixes, cleanup
-//
-//		SecurityFix		-	for Security leaks
-//
-//		Quickfix		-	quick update for App
-//
-// combine with Reason in ExitWindowsEx and 
-// Shutdown Flag: EWX_RESTARTAPPS | ShutdownReason.REASON_PLANNED_FLAG
-// so the Operation System force to close all App's and shutdown,
-// install SecurityFix and restart the System and restart the last App.
-//
-//----------------------------------------------------------------------------
-//-------------------------- Project History ---------------------------------
-//----------------------------------------------------------------------------
-// Release 0.0.0 - 2016/01/01 - TIPPO - KC - Project Founder - Initial
-//----------------------------------------------------------------------------
-// Commentary:
-// [VGF.NET - 01]
-//
-//
-//
-//----------------------------------------------------------------------------
-// Definition:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Improvement:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// New Feature:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Task:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Class:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Method:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Property:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Visual Studio 2017 V 15.6.4 with .NET Framework 4.7.1
-// Visual Studio 2017 V 15.7.X with .NET Framework 4.7.2
-// for all programming-languages vcruntime140.dll, equalvalent with
-// Windows 10 System-Component ucrt.dll. (universal - C - runtime library)
-//
-// .NET Framework 4.7.2 come with "Spring Creators Update" Windows 10 V1803
-// both in dependency !.
-// 
-// ! Automatic Versions Settings with Tool !
-// set major on none, minor on always increment, build and revision on
-// always increment.
-//
-//
-//######################## Other notable Changes #############################
-//
-// Other:
-// [VGF.NET - 01] 
-//
-//----------------------------------------------------------------------------
-// Bug:
-// [VGF.NET - 01]
-// Timer Control 
-//----------------------------------------------------------------------------
-// Fixes:
-//[VGF.NET - Bug 01]
-// forget Timer, set directly in Console program.cs the call for the
-// Image Form.
-//---------------------------------------------------------------------------- 
-// Miscellous:
-// .1 insert Windows form to Console Project for Splash.
-// Console Window goes at Runtime in resize Window, show the Image Form,
-// unload method the Image Form in program.cs after Thread.Sleep(7000);
-// Resize the Console Window normal, show all relevant Informations for User,
-// what have the Console App done.(Settings for user and more.)
-// For User: NO Personal Datas have use or write into a File, only machinename
-// username that's all.
-//
-// 
-// 
-// 
-// 
 //######################### Visual.Galaxy.Framework ##########################
 //#
 //# Start Date: 2018/03/01 - 17:00 - Ground Leaning -Initial
@@ -417,43 +297,19 @@ namespace Visual.Registry.Library
     /// </summary>
     public static class VRLWindowsRegistry
     {
-
-        //################### TIPPO INFO ################################
-        // ! ATTENTION ! In some Platforms, 
-        // the Windows Registry NOT supports!!!.
-        // use our Methods for Windows,
-        // For other Operation System they NOT supports this, following:
-        // preprocessor directive:
-        //
-        // #if __WINDOWS__
-        //  // here the Code Statements
-        // #elif __Unix__
-        //  // throw SystemException
-        // #elif __APPLE__
-        //
-        // #elif __Linux__
-        //
-        // #endif
-        //
-        //###############################################################
-
         
-
-
-
-
         #region ### Enumerators for Registry
 
         /// Enumerator for Registry Rights:
         internal enum RegistryRights
         {
             // No None field - An ACE with the value 0 cannot grant nor deny.
-            QueryValues = KEY_QUERY_VALUE,          // 0x0001 query the values of a registry key
-            SetValue = KEY_SET_VALUE,            // 0x0002 create, delete, or set a registry value
-            CreateSubKey = KEY_CREATE_SUB_KEY,       // 0x0004 required to create a subkey of a specific key
-            EnumerateSubKeys = KEY_ENUMERATE_SUB_KEYS,   // 0x0008 required to enumerate sub keys of a key
-            Notify = KEY_NOTIFY,               // 0x0010 needed to request change notifications
-            CreateLink = KEY_CREATE_LINK,          // 0x0020 reserved for system use
+            QueryValues = KEY_QUERY_VALUE,              // 0x0001 query the values of a registry key
+            SetValue = KEY_SET_VALUE,                   // 0x0002 create, delete, or set a registry value
+            CreateSubKey = KEY_CREATE_SUB_KEY,          // 0x0004 required to create a subkey of a specific key
+            EnumerateSubKeys = KEY_ENUMERATE_SUB_KEYS,  // 0x0008 required to enumerate sub keys of a key
+            Notify = KEY_NOTIFY,                        // 0x0010 needed to request change notifications
+            CreateLink = KEY_CREATE_LINK,               // 0x0020 reserved for system use
                                                                ///
                                                                /// The Windows Kernel team agrees that it was a bad design to expose the WOW64_n options as permissions.
                                                                /// in the .NET Framework these options are exposed via the RegistryView enum
