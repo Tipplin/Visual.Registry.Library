@@ -1,5 +1,5 @@
 ﻿/*********************************************************************************
-*	Copyright © 2018 by VGF-KernelTeam and Christian 'TIPPO' Kurs.
+*	Copyright © 2017 - 2021 by VGF-KernelTeam and Christian 'Tipplin' Kurs.
 *			All Rights Reserved.
 *
 *********************************************************************************/
@@ -47,7 +47,7 @@
     and entities on the Bureau of Export Administration Entity List or 
     involved with missile technology or nuclear, chemical or biological weapons).
 
-    © 1982 - 2018 Microsoft Corporation. All rights reserved.
+    © 1982 - 2021 Microsoft Corporation. All rights reserved.
 
 ****************************************************************************************************/
 
@@ -191,16 +191,6 @@ namespace Visual.Registry.Library.Internal
          * 
          *---------------------------------------------------------------------
          */
-
-
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// SDataFormat for all .suffixes we can use,
@@ -691,12 +681,14 @@ namespace Visual.Registry.Library.Internal
         /// Note that the given user password is cloned before it is stored in the new PasswordAuthentication object.
         /// </summary>
         /// <!-- Author Tipplin 🧑 -->
-        /// UNDONE
+        /// 
         /// <!-- Author Tipplin 🧑 -->
         /// <param name="userName"></param>
         /// <param name="password"></param>
         internal static string VRLPasswordAuthentication​(String userName, char[] password)
         {
+            // In Visual C# allowed return bool as string true or false,
+            // bool normal 0 or 1
             return false.ToString();
         }
 
@@ -718,7 +710,15 @@ namespace Visual.Registry.Library.Internal
         {
             //
             AppDomain.CurrentDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
-
+            
+            //---------------------------------------------------------------------------
+            // Windows 10 Professional edition is an Workstation with more Tools,
+            // Net policy Wizard an command line tool: 
+            // netplwiz.exe with User/Groups Editor
+            // NOTE: ONLY an Administrator have full access on an Computer,
+            // Users have not all accesses.
+            // So Windows 10 denied same Folders.
+            //---------------------------------------------------------------------------
             // Principal Accounts Roles(Windows Membership):
             // Windows Operation System BASE:
             // AccountOperator
