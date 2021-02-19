@@ -3,7 +3,7 @@
 // Project		:	Visual.Galaxy.Framework
 //
 //-----------------------------------------------------------------------------
-// Programmer	:	Christian "TIPPO" Kurs
+// Programmer	:	Christian "Tipplin" Kurs
 //-----------------------------------------------------------------------------
 // Part         :	Visual.Registry.Library
 //-----------------------------------------------------------------------------
@@ -27,28 +27,28 @@
 //              :   inside der Project written projectname.hmtl the Compiler
 //              :   compile the site, is exception or not.
 //------------------------------------------------------------------------------
-// Copyright © 2019, by Visual Galaxy Framework Community Kernel Developer Team
+// Copyright © 2017 - 2021 by 
+// Visual Galaxy Framework Community Kernel Developer Team
 //
-// by Head-Author: Christian "TIPPO" Kurs - Visual C# Senior Developer
-// Portions Copyright © 2019 by Microsoft Corporation GmbH.
+// by Head-Author: Christian "Tipplin" Kurs - Visual C# Senior Developer
+// Portions Copyright © 1982-2021 by Microsoft Corporation GmbH.
 //
 // Same sourcecode by Microsoft, so we marked with Copyright !.
-// © 1982 - 2019 - Copyrights by Microsoft: Images, Icons, Signs, Gadgets, 
+// © 1982-2021 - Copyrights by Microsoft: Images, Icons, Signs, Gadgets, 
 // Copyright © and Tradewark by Microsoft Windows, Windows Logo, Visual Studio
 //------------------------------------------------------------------------------
 // Get Permission from Microsoft to use Icons, Signs, Images for this Project.
 //-----------------------------------------------------------------------------
 //
-// written by 		Christian "TIPPO" Kurs
-// 				    Nettweg 1
-//					-G - 53498 Bad Breisig
+// written by 		Christian "Tipplin" Kurs
+// 				    Ahornweg 1
+//					-G - 53177 Bonn
 //					Germany - Allemagne - Duitsland
 //-----------------------------------------------------------------------------
-// 				    voice				:	02633 - 470736  
-//					international phone	:	00-49-2633-470736
+// 				    mobile				:	0049 173 4593440
 //					Skype				:
 //					e-mail				:	kurschristian@gmail.de
-//					my Website Community:	http://www.vgfc.org/community/tippo
+//					my Website Community:	
 //					
 //----------------------------------------------------------------------------
 // This software is supplied as is. Use it at your own  RISK !!!!.
@@ -61,56 +61,15 @@
 //				NO fee for NON-Commercial use.
 //				our Community Website: 
 //				
-//				http://www.vgfc.org/community/project/vgfc/
+//				
 //
 //				Honest Business Users, to use our compiled Versions, 
 //				please call us to send you our Business Licenses.
 //				or our Business Website:
 //				
-//				http://www.vgfc.org/business/vgfc/License
+//				
 //
 //----------------------------------------------------------------------------
-
-//----------------------------------------------------------------------------
-//-------------------------- Project History ---------------------------------
-//----------------------------------------------------------------------------
-// Release 0.0.0 - 2016/01/01 - TIPPO - KC - Project Founder - Initial
-//----------------------------------------------------------------------------
-// Commentary:
-// [VGF.NET - 01]
-//
-//
-//
-//----------------------------------------------------------------------------
-// Definition:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Improvement:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// New Feature:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Task:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Class:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Method:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-// Property:
-// [VGF.NET - 01]
-//
-//----------------------------------------------------------------------------
-
 //----------------------------------------------------------------------------
 // All .NET Framework Directives are begin with System
 // same with 
@@ -226,30 +185,6 @@ using static Visual.Registry.Library.VRLWindowsRegistry;
 
 
 
-
-
-
-/*###################################################################################################
-* At Visual Studio 2017 V 15.6.4 with Programming-Language Visual C# 7.2 in use !.
-* Visual C# 7.3 with Visual Studio 2017 V 15.7.0
-* Visual Studio 2017 and Visual C# 7.2
-* ---------------------------------------------------------------------------------------------------
-* Windows 10 Build 17130.48 - 'Spring Creators Update' in dependency with .NET Framework 4.7.2 (new)
-* Change Platform to .NET Framework 4.7.2 !!!
-* Windows 10 Build 17754.1 - 'October Update 2018' in dependency with .NET Framework 4.7.2
-* ---------------------------------------------------------------------------------------------------
-* Windows 10 Build 18362.0 - Release Preview - end of May - 
-* Finally with Bugfixes, but increment only the Revisions.
-* most like cumulative updates for Bugfixes and issue.
-* at Time New Revision is .86 - OS-Build 18362.86 - 30.04.2019 -
-* ---------------------------------------------------------------------------------------------------
-* Change Platform to .NET Framework 4.8.03752
-* Visual Studio 2019 and Visual C# 8.0 -
-* 
-* 
-###################################################################################################*/
-
-
 /*-----------------------------------------------------------------------------
  * namespace Visual.Registry.Library for CUtilities, Windows Operation System, 
  * Critical Exceptions...
@@ -278,6 +213,9 @@ namespace Visual.Registry.Library
         /// <summary>
         /// Is Windows 7
         /// </summary>
+        /// <!-- 🧑 Author Tipplin🧑 -->
+        /// Here Lambda operator for check Versionnummer
+        /// <!-- 🧑 Author Tipplin🧑 -->
         internal static bool IsOSWindows7OrNewer => _osVersion >= new Version(6, 1);
         /// <summary>
         /// Is Windows 8
@@ -290,6 +228,9 @@ namespace Visual.Registry.Library
         /// <summary>
         /// Username as shortcut
         /// </summary>
+        /// <!-- 🧑Author Tipplin🧑 -->
+        /// Here Lambda operator for shortname
+        /// <!-- 🧑Author Tipplin🧑 -->
         internal static string Uname => Environment.UserName;
         /// <summary>
         /// Machinename as shortcut
@@ -317,9 +258,9 @@ namespace Visual.Registry.Library
         /// <summary>
         /// 
         /// </summary>
-        /// <!-- Author Tipplin 🧑 -->
+        /// <!-- 🧑Author Tipplin🧑 -->
         /// 
-        /// <!-- Author Tipplin 🧑 -->
+        /// <!-- 🧑Author Tipplin🧑 -->
         /// <remarks>
         /// 
         /// </remarks>
@@ -357,7 +298,9 @@ namespace Visual.Registry.Library
             Windows1019h20,     // Revision 10000 by 19h2 - OS-Build 18362.10000 half second year -
             Windows1019h25,     // actual Revision 10005 - 19h2 - after cleanup's.
             Windows1020h1,      // Open Branch 2020 - actual OS-Build 18865 -
-            Windows1020h2       //
+            Windows1020h2,      //
+            Windows1021h1,      //
+            Windows1021h2       //
         }
 
 
@@ -595,7 +538,9 @@ namespace Visual.Registry.Library
             v4_7,       // - Release Windows 10 - 461308 - 11. April 2017
             v4_7_1,     // 13. Oktober 2017 - Windows 10 Fall Creators Update     - V1709
             v4_7_2,     // 4.7.3081.0 - Release 461808 - 10. Juli 2018  - Windows 10 Spring Creators Update   - V1803
-            v4_8        // 4.8.3761.0 - 4.8.03752 - Release 528040 and 528049 for other OS Systems 18. April 2019 - Windows 10 May Update 2019
+            v4_8,       // 4.8.3761.0 - 4.8.03752 - Release 528040 and 528049 for other OS Systems 18. April 2019 - Windows 10 May Update 2019
+            v5_0,       //
+            v6_0        // NOV 2021
         }
 
 
@@ -711,9 +656,9 @@ namespace Visual.Registry.Library
         /// <summary>
         /// Get CLR default Corlib path
         /// </summary>
-        /// <!-- Author Tipplin 🧑 -->
+        /// <!-- 🧑Author Tipplin🧑 -->
         /// use Class Enviroment with GetEnviromentVariable - Win Dir and SystemRoot
-        /// <!-- Author Tipplin 🧑 -->
+        /// <!-- 🧑Author Tipplin🧑 -->
         /// <remarks>
         /// 
         /// </remarks>
@@ -799,9 +744,9 @@ namespace Visual.Registry.Library
         /// <summary>
         /// Get Windows Operation System current Build
         /// </summary>
-        /// <!-- Author Tippo 🧑 -->
+        /// <!-- 🧑Author Tippo🧑 -->
         /// 
-        /// <!-- Author Tippo 🧑 -->
+        /// <!-- 🧑Author Tippo🧑 -->
         /// <remarks>
         /// 
         /// </remarks>
