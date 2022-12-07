@@ -1,0 +1,553 @@
+﻿
+--------------------------------------------------------------------------------------
+WebClient is deprecated
+API is deprecated by Windows Operation System, newer one or removed.
+API is not supported on all Platforms.
+--------------------------------------------------------------------------------------
+Visual Studio 2017 - Integrated NuGet-Manager
+======================================================================================
+auf Verweise mouse move dann rechts klicken--> NuGet-Pakete verwalten-->
+Open the NuGet-Paket-Manager--> jede Menge Pakete zum installieren.
+bestimmtes suchen oben links eingeben.
+Paketquelle:
+Alle
+nuget.org
+CliFallbackFolder
+Microsoft Visual Studio Offline Packages
+--------------------------------------------------------------------------------------
+System.Windows
+Stellt einen Startbildschirm für eine Windows Presentation Foundation (WPF)-Anwendung.
+SplashScreen
+
+--------------------------------------------------------------------------------------
+[__DynamicallyInvokable]
+System.Runtime.InteropServices
+--------------------------------------------------------------------------------------
+!!! Achtung !!! ab neuem Visual Studio 2017/2018/2019 - 
+Microsoft Richtlinien automatisch aktiviert, Portability und Design !
+!!! Vorsicht !!! bei unmanaged Functions aus nativen dll's:
+beispiel deklaration:
+namespace NativeMethods{} 
+klasse:
+
+
+// for enums
+internal static class CUnsafeNativeEnums
+
+// for structures
+internal static class CUnsafeNativeStructs
+
+// class
+internal static class CUnsafeNativeMethods
+
+// DllImportAttribute the best declaration
+// CallingConvention.StdCall - for all dynamic link libraries with declaration extern 'C'
+// CallingConvention.Cdecl - for all dynamic link libraries without declaration extern 'C' written in C++ only.
+// SimpleSample all C++ Runtime Libraries for use.
+[DllImport("kernel32.dll", EntryPoint = "GetSystemTimeAsFileTime", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+internal static extern void GetSystemTimeAsFileTime(ref CUnsafeNativeStructs.FILE_TIME lpSystemTimeAsFileTime);
+-----------------------------------------------------------------------------------------------------
+System.Media
+Class Soundplayer - only .wav files, internal written with API function PlaySound
+-----------------------------------------------------------------------------------------------------
+
+
+
+
+-----------------------------------------------------------------------------------------------------
+// So we free the Resources and all Components for the Splash Form
+// that's NEW ! so GC frees all.
+frm1.Dispose();
+            
+// Close Splash Form
+frm1.Close();
+
+-----------------------------------------------------------------------------------------------------
+Helps for RegistrySecurity
+
+System.Security.AccessControl Namespace 
+https://docs.microsoft.com/de-de/dotnet/api/system.security.accesscontrol?view=netframework-4.7.1
+
+RegistrySecurity Class 
+https://docs.microsoft.com/de-de/dotnet/api/system.security.accesscontrol.registrysecurity?f1url=https%3A%2F%2Fmsdn.microsoft.com%2Fquery%2Fdev15.query%3FappId%3DDev15IDEF1%26l%3DDE-DE%26k%3Dk(System.Security.AccessControl.RegistrySecurity);k(TargetFrameworkMoniker-.NETFramework,Version%3Dv4.7.1);k(DevLang-csharp)%26rd%3Dtrue&view=netframework-4.7.1
+
+
+
+
+-----------------------------------------------------------------------------------------------------
+
+Classname variable = namespace.namespace.class.field.method();
+RegistryKey RegKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Software Creative Production\System\VFL\LICENSE");
+
+set in try - RegKey.Close();
+and in Finally - RegKey.Close();
+double set is not allowed, System.ObjectDisposedException
+
+Das Objekt "'RegKey'" kann mehrere Male in der 'CWindowsRegistry.VRLCreateRegistryKeyPasswordLevel(int)'-Methode verworfen werden. 
+Um zu verhindern, dass eine System.ObjectDisposedException generiert wird, 
+sollten Sie die Dispose-Methode nur einmal für ein Objekt aufrufen.
+
+
+
+
+
+
+ /*
+  * Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "LogonType", string.Empty).ToString();
+    !!! Achtung !!! Zugriff verweigert durch Windows 10 Security - Schlüssel Policies\System
+    RegistryKey RegKey = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System");
+    RegKey.SetValue("DisableTaskMgr", !Enabled, RegistryValueKind.DWord); RegKey.Close();
+
+    RegKey = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Group Policy Objects\LocalUser\Software\Microsoft\Windows\CurrentVersion\Policies\System"); 
+    RegKey.SetValue("DisableTaskMgr", !Enabled, RegistryValueKind.DWord); RegKey.Close();
+             * 
+            Microsoft.Win32.Registry.LocalMachine.SetValue("", "");
+            Microsoft.Win32.Registry.LocalMachine.OpenSubKey("");
+            Microsoft.Win32.Registry.LocalMachine.SetAccessControl()
+
+
+            using System;
+using System.Security.Permissions;
+using Microsoft.Win32;
+
+class RegKey
+{
+    static void Main()
+    {
+        // Create a subkey named Test9999 under HKEY_CURRENT_USER.
+        RegistryKey test9999 = 
+            Registry.CurrentUser.CreateSubKey("Test9999");
+        // Create two subkeys under HKEY_CURRENT_USER\Test9999. The
+        // keys are disposed when execution exits the using statement.
+        using(RegistryKey 
+            testName = test9999.CreateSubKey("TestName"),
+            testSettings = test9999.CreateSubKey("TestSettings"))
+        {
+            // Create data for the TestSettings subkey.
+            testSettings.SetValue("Language", "French");
+            testSettings.SetValue("Level", "Intermediate");
+            testSettings.SetValue("ID", 123);
+        }
+
+        // Print the information from the Test9999 subkey.
+        Console.WriteLine("There are {0} subkeys under {1}.", 
+            test9999.SubKeyCount.ToString(), test9999.Name);
+        foreach(string subKeyName in test9999.GetSubKeyNames())
+        {
+            using(RegistryKey 
+                tempKey = test9999.OpenSubKey(subKeyName))
+            {
+                Console.WriteLine("\nThere are {0} values for {1}.", 
+                    tempKey.ValueCount.ToString(), tempKey.Name);
+                foreach(string valueName in tempKey.GetValueNames())
+                {
+                    Console.WriteLine("{0,-8}: {1}", valueName, 
+                        tempKey.GetValue(valueName).ToString());
+                }
+            }
+        }
+
+        using(RegistryKey 
+            testSettings = test9999.OpenSubKey("TestSettings", true))
+        {
+            // Delete the ID value.
+            testSettings.DeleteValue("id");
+
+            // Verify the deletion.
+            Console.WriteLine((string)testSettings.GetValue(
+                "id", "ID not found."));
+        }
+
+        // Delete or close the new subkey.
+        Console.Write("\nDelete newly created registry key? (Y/N) ");
+        if(Char.ToUpper(Convert.ToChar(Console.Read())) == 'Y')
+        {
+            Registry.CurrentUser.DeleteSubKeyTree("Test9999");
+            Console.WriteLine("\nRegistry key {0} deleted.", 
+                test9999.Name);
+        }
+        else
+        {
+            Console.WriteLine("\nRegistry key {0} closed.", 
+                test9999.ToString());
+            test9999.Close();
+        }
+    }
+}
+
+
+using System;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Security;
+using Microsoft.Win32;
+
+public class Example
+{
+
+    public static void Main()
+    {
+
+        string user = Environment.UserDomainName + "\\"
+            + Environment.UserName;
+
+        // Create a security object that grants no access.
+        RegistrySecurity mSec = new RegistrySecurity();
+
+        // Add a rule that grants the current user ReadKey
+        // rights. ReadKey is a combination of four other 
+        // rights. The rule is inherited by all 
+        // contained subkeys.
+        RegistryAccessRule rule = new RegistryAccessRule(user, 
+            RegistryRights.ReadKey, 
+            InheritanceFlags.ContainerInherit, 
+            PropagationFlags.None, 
+            AccessControlType.Allow);
+        mSec.AddAccessRule(rule);
+
+        // Create a rule that allows the current user only the 
+        // right to query the key/value pairs of a key, using  
+        // the same inheritance and propagation flags as the
+        // first rule. QueryValues is a constituent of 
+        // ReadKey, so when this rule is removed, using the 
+        // RemoveAccessRule method, ReadKey is broken into
+        // its constituent parts.
+        rule = new RegistryAccessRule(user, 
+            RegistryRights.QueryValues, 
+            InheritanceFlags.ContainerInherit, 
+            PropagationFlags.None, 
+            AccessControlType.Allow);
+        mSec.RemoveAccessRule(rule);
+
+        // Display the rules in the security object.
+        ShowSecurity(mSec);
+
+        // Add the second rule back. It merges with the 
+        // existing rule, so that the rule is now displayed
+        // as ReadKey.
+        mSec.AddAccessRule(rule);
+
+        // Display the rules in the security object.
+        ShowSecurity(mSec);
+    }
+
+    private static void ShowSecurity(RegistrySecurity security)
+    {
+        Console.WriteLine("\r\nCurrent access rules:\r\n");
+
+        foreach( RegistryAccessRule ar in security.GetAccessRules(true, true, typeof(NTAccount)) )
+        {
+            Console.WriteLine("        User: {0}", ar.IdentityReference);
+            Console.WriteLine("        Type: {0}", ar.AccessControlType);
+            Console.WriteLine("      Rights: {0}", ar.RegistryRights);
+            Console.WriteLine(" Inheritance: {0}", ar.InheritanceFlags);
+            Console.WriteLine(" Propagation: {0}", ar.PropagationFlags);
+            Console.WriteLine("   Inherited? {0}", ar.IsInherited);
+            Console.WriteLine();
+        }
+    }
+}
+
+using System;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Security;
+using Microsoft.Win32;
+
+public class Example
+{
+    public static void Main()
+    {
+        const string TestKey = "TestKey3927";
+        RegistryKey cu = Registry.CurrentUser;
+
+        string user = Environment.UserDomainName + 
+            "\\" + Environment.UserName;
+
+        // Create a security object that grants no access.
+        RegistrySecurity mSec = new RegistrySecurity();
+
+        // Add a rule that grants the current user the right
+        // to read and enumerate the name/value pairs in a key, 
+        // to read its access and audit rules, to enumerate
+        // its subkeys, to create subkeys, and to delete the key. 
+        // The rule is inherited by all contained subkeys.
+        //
+        RegistryAccessRule rule = new RegistryAccessRule(user, 
+           RegistryRights.ReadKey | RegistryRights.WriteKey 
+               | RegistryRights.Delete, 
+           InheritanceFlags.ContainerInherit, 
+           PropagationFlags.None, 
+           AccessControlType.Allow
+        );
+        mSec.AddAccessRule(rule);
+
+        // Add a rule that allows the current user the right
+        // right to set the name/value pairs in a key. 
+        // This rule is inherited by contained subkeys, but
+        // propagation flags limit it to immediate child 
+        // subkeys.
+        rule = new RegistryAccessRule(user, 
+            RegistryRights.ChangePermissions, 
+            InheritanceFlags.ContainerInherit, 
+            PropagationFlags.InheritOnly | 
+                PropagationFlags.NoPropagateInherit, 
+            AccessControlType.Allow);
+        mSec.AddAccessRule(rule);
+
+        // Display the rules in the security object.
+        ShowSecurity(mSec);
+
+        // Create the test key using the security object.
+        //
+        RegistryKey rk = cu.CreateSubKey(TestKey, 
+            RegistryKeyPermissionCheck.ReadWriteSubTree, mSec);
+
+        // Create a child subkey and a grandchild subkey, 
+        // without security.
+        RegistryKey rkChild = rk.CreateSubKey("ChildKey", 
+            RegistryKeyPermissionCheck.ReadWriteSubTree);
+        RegistryKey rkGrandChild = 
+            rkChild.CreateSubKey("GrandChildKey", 
+                RegistryKeyPermissionCheck.ReadWriteSubTree);
+
+        Show(rk);
+        Show(rkChild);
+        Show(rkGrandChild);
+
+        rkGrandChild.Close();
+        rkChild.Close();
+        rk.Close();
+
+        cu.DeleteSubKeyTree(TestKey);
+    }
+
+    private static void Show(RegistryKey rk)
+    {
+        Console.WriteLine(rk.Name);
+        ShowSecurity(rk.GetAccessControl());
+    }
+
+    private static void ShowSecurity(RegistrySecurity security)
+    {
+        Console.WriteLine("\r\nCurrent access rules:\r\n");
+
+        foreach( RegistryAccessRule ar in security.GetAccessRules(true, true, typeof(NTAccount)) )
+        {
+
+            Console.WriteLine("        User: {0}", ar.IdentityReference);
+            Console.WriteLine("        Type: {0}", ar.AccessControlType);
+            Console.WriteLine("      Rights: {0}", ar.RegistryRights);
+            Console.WriteLine(" Inheritance: {0}", ar.InheritanceFlags);
+            Console.WriteLine(" Propagation: {0}", ar.PropagationFlags);
+            Console.WriteLine("   Inherited? {0}", ar.IsInherited);
+            Console.WriteLine();
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+/*		Microsoft Internal noch mehr [assembly: attribute]
+
+
+     * Mögliche assembly sets in AssemblyFile.cs
+     * 
+    diese erzwingt Sicherheitsregel für eine Assembly durch die CLR
+    Sicherheitsregeln == SecurityRuleSet.Level1
+    [assembly: SecurityRules(SecurityRuleSet.Level1, SkipVerificationInFullTrust = true)]
+
+    [assembly: AssemblyDefaultAlias("System.Configuration.dll")]
+
+    [assembly: AssemblyFileVersion("4.7.2556.0")]
+    [assembly: AssemblyInformationalVersion("4.7.2556.0")]
+    [assembly: SatelliteContractVersion("4.0.0.0")]
+    [assembly: NeutralResourcesLanguage("en-US")]
+    [assembly: AssemblyDelaySign(true)]
+    [assembly: AssemblyKeyFile("f:\\dd\\tools\\devdiv\\FinalPublicKey.snk")]
+    [assembly: AssemblySignatureKey("002400000c800000140100000602000000240000525341310008000001000100613399aff18ef1a2c2514a273a42d9042b72321f1757102df9ebada69923e2738406c21e5b801552ab8d200a65a235e001ac9adc25f2d811eb09496a4c6a59d4619589c69f5baf0c4179a47311d92555cd006acc8b5959f2bd6e10e360c34537a1d266da8085856583c85d81da7f3ec01ed9564c58d93d713cd0172c8e23a10f0239b80c96b07736f5d8b022542a4e74251a5f432824318b3539a5a087f8e53d2f135f9ca47f3bb2e10aff0af0849504fb7cea3ff192dc8de0edad64c68efde34c56d302ad55fd6e80f302d5efcdeae953658d3452561b5f36c542efdbdd9f888538d374cef106acf7d93a4445c3c73cd911f0571aaf3d54da12b11ddec375b3", "a5a866e1ee186f807668209f3b11236ace5e21f117803a3143abb126dd035d7d2f876b6938aaf2ee3414d5420d753621400db44a49c486ce134300a2106adb6bdb433590fef8ad5c43cba82290dc49530effd86523d9483c00f458af46890036b0e2c61d077d7fbac467a506eba29e467a87198b053c749aa2a4d2840c784e6d")]
+    [assembly: ComCompatibleVersion(1, 0, 3300, 0)]
+    [assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
+    [assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32 | DllImportSearchPath.AssemblyDirectory)]
+    [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
+    [assembly: AssemblyVersion("4.0.0.0")]
+
+    */
+
+/*
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class CUtility
+    {
+        /// <summary>
+        /// Cycle Redunance Checksum
+        /// </summary>
+        public class CRC32Util
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            protected uint[] tableCRC32_;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public CRC32Util()
+            {
+                tableCRC32_ = new uint[256];
+                uint num = 3988292384u;
+                for (int i = 0; i < 256; i++)
+                {
+                    uint num2 = (uint)i;
+                    for (int num3 = 8; num3 > 0; num3--)
+                    {
+                        num2 = (((num2 & 1) != 1) ? (num2 >> 1) : (num2 >> 1 ^ num));
+                    }
+                    tableCRC32_[i] = num2;
+                }
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="_obj_buff_stream"></param>
+            /// <returns></returns>
+            public long getCRC32(BufferedStream _obj_buff_stream)
+            {
+                int num = 0;
+                uint num2 = uint.MaxValue;
+                while ((num = _obj_buff_stream.ReadByte()) != -1)
+                {
+			       ((byte)num, num2);
+                }
+                return num2 = ~num2;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="_str_buff"></param>
+            /// <returns></returns>
+            public long getCRC32(string _str_buff)
+            {
+                uint num = uint.MaxValue;
+                for (int i = 0; i < _str_buff.Length; i++)
+                {
+			        ((byte)_str_buff[i], ref num);
+            }
+		    return num = ~num;
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="_buffer"></param>
+            /// <returns></returns>
+            public long getCRC32(byte[] _buffer)
+            {
+                uint num = uint.MaxValue;
+                for (int i = 0; i < _buffer.Length; i++)
+                {
+			(_buffer[i], ref num);
+            }
+        
+        //
+		return num = ~num;
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            internal void (byte , ref uint )
+	        {
+		       = ( >> 8 ^ tableCRC32_[ ^ ( &0xFF)]);
+	        }
+        }
+
+} // End of Class CUtility
+
+*/
+
+
+ /*	.NET Framework Developer sourcecode:
+     *  initialze the structure member dwLength,
+     *  sizeof Structure!
+     *  same Windows Structs have this member.
+     *  here sample for Visual C#.
+     *  
+    internal void Init()
+    {
+        dwLength = checked((uint)Marshal.SizeOf(typeof(MEMORYSTATUSEX)));
+    }
+
+	--------------------------------------------------------------------------------------
+    // Windows Operation System have Functions and Structures with suffix EX, Ex
+    // Windows calls them permament !, Please write in .NET a Wrapper Method !!!.
+    // DON'T CALL THEM DIRECTLY !!!.
+	--------------------------------------------------------------------------------------
+    internal struct MEMORYSTATUSEX
+	{
+		internal uint dwLength;
+
+		internal uint dwMemoryLoad;
+
+		internal ulong ullTotalPhys;
+
+		internal ulong ullAvailPhys;
+
+		internal ulong ullTotalPageFile;
+
+		internal ulong ullAvailPageFile;
+
+		internal ulong ullTotalVirtual;
+
+		internal ulong ullAvailVirtual;
+
+		internal ulong ullAvailExtendedVirtual;
+
+		internal void Init()
+		{
+			dwLength = checked((uint)Marshal.SizeOf(typeof(MEMORYSTATUSEX)));
+		}
+	}
+
+
+
+
+
+
+
+    */
+
+
+TIPPO Idea for Projects Directories/Paths - see Microsft Framework Guideline
+
+------- Here Company------------Technic-----------Programmer----Main-Dir---------Team---------------MASTER DIR-SOURCE---PART-----OS-----OBJECT-C#---Part.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\Windows\obj\cs\VGF.Environments.Windows.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\Android\obj\cs\VGF.Environments.Android.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\ios\obj\cs\VGF.Environments.iOS.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\macOS\obj\cs\VGF.Environments.macOS.cs 
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\tvOS\obj\cs\VGF.Environments.tvOS .cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\watchOS\obj\cs\VGF.Environments.watchOS.cs 
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\AIX\obj\cs\VGF.Environments.AIX.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\i OS\obj\cs\VGF.Environments.IBM.i_OS.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\Linux\obj\cs\VGF.Environments.Linux.cs
+C:\Software Creative Production\Technology\Developer\TIPPO\Project_Programming\VGFKernelTeam\Project\VGF\master\src\Environments\Unix\obj\cs\vgf.Environments.Unix.cs
+ 
