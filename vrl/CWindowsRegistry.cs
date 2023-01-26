@@ -1,11 +1,11 @@
 ﻿//#############################################################################
 //
-// Project		:	Visual.Galaxy.Framework
+// Project		:	Visual.Registry.Library
 //
 //-----------------------------------------------------------------------------
-// Programmer	:	Christian "TIPPO" Kurs
+// Programmer	:	Christian "Tipplin" Kurs
 //-----------------------------------------------------------------------------
-// Part         :	Visual.Registry.Library
+// Part         :	Registry
 //-----------------------------------------------------------------------------
 // Base Class	:	CWindowsRegistry
 //-----------------------------------------------------------------------------
@@ -16,7 +16,7 @@
 //              :   set build option, so he show the complete Build-Run
 //              :   Build-Run Log in Project-Directory: Projectname.log
 //-----------------------------------------------------------------------------
-// Specials     :   Change Platform to .NET Framework 4.7.2 !!!
+// Specials     :   Change Platform to .NET 7
 //              :
 //              :
 //------------------------------------------------------------------------------
@@ -31,35 +31,35 @@
 // ----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 //
-// written by 		Christian "TIPPO" Kurs
-// 				    Nettweg 1
-//					-G - 53498 Bad Breisig
+// written by 		Christian "Tipplin" Kurs
+// 				    Ahornweg 1
+//					-G - 53177 Bonn
 //					Germany - Allemagne - Duitsland
 //-----------------------------------------------------------------------------
-// 				    voice				:	02633 - 470736  
-//					international phone	:	00-49-2633-470736
+// 				    voice				:	
+//					international phone	:	00-49-1734593440
 //					Skype				:
 //					e-mail				:	kurschristian@gmail.de
-//					my Website Community:	http://www.vgfc.org/community/tippo
+//					my Website Community:	
 //					
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // This software is supplied as is. Use it at your own  RISK !!!!.
 // Obviously I've tried to do the best job possible.
 // If you find any problem with it, let me know.
 //
 // With any luck, Visual Galaxy Framework will make it obsolete anyway
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // License:	
 //				NO fee for NON-Commercial use.
 //				our Community Website: 
+//				in Progress
 //				
-//				http://www.vgfc.org/community/project/vgfc/
 //
 //				Honest Business Users, to use our compiled Versions, 
 //				please call us to send you our Business Licenses.
 //				or our Business Website:
+//				is Progress
 //				
-//				http://www.vgfc.org/business/vgfc/License
 //
 //----------------------------------------------------------------------------
 // Same specified to Project "Visual.Galaxy.Framework":
@@ -80,7 +80,7 @@
 //----------------------------------------------------------------------------
 //-------------------------- Project History ---------------------------------
 //----------------------------------------------------------------------------
-// Release 0.0.0 - 2016/01/01 - TIPPO - KC - Project Founder - Initial
+// Release 0.0.0 - 2017/01/01 - TIPPO - KC - Project Founder - Initial
 //----------------------------------------------------------------------------
 // Commentary:
 // [VGF.NET - 01]
@@ -116,19 +116,7 @@
 // [VGF.NET - 01]
 //
 //----------------------------------------------------------------------------
-// Visual Studio 2017 V 15.6.4 with .NET Framework 4.7.1
-// Visual Studio 2017 V 15.7.X with .NET Framework 4.7.2
-// for all programming-languages vcruntime140.dll, equalvalent with
-// Windows 10 System-Component ucrt.dll. (universal - C - runtime library)
-//
-// .NET Framework 4.7.2 come with "Spring Creators Update" Windows 10 V1803
-// both in dependency !.
-// 
-// ! Automatic Versions Settings with Tool !
-// set major on none, minor on always increment, build and revision on
-// always increment.
-//
-//
+
 //######################## Other notable Changes #############################
 //
 // Other:
@@ -240,6 +228,7 @@ namespace Visual.Registry.Library
     */
 
     /*
+            Registry Key:
             [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion]
             "SystemRoot" = "C:\\WINDOWS"
             -----------------------------------------------------------------------
